@@ -20,7 +20,7 @@ class H3Conan(ConanFile):
     default_options = {
         "shared": False,
         "fPIC": True,
-        "h3_prefix": "''"
+        "h3_prefix": ""
     }
 
     _cmake = None
