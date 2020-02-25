@@ -37,7 +37,8 @@ int main() {
   h3ToGeoBoundary(indexed, &boundary);
   // Indexes can have different number of vertices under some cases,
   // which is why boundary.numVerts is needed.
-  for (int v = 0; v < boundary.numVerts; v++) {
+  int v;
+  for (v = 0; v < boundary.numVerts; v++) {
       printf("Boundary vertex #%d: %lf, %lf\n", v,
              radsToDegs(boundary.verts[v].lat),
              radsToDegs(boundary.verts[v].lon));
