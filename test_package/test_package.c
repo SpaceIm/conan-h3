@@ -48,4 +48,6 @@ int main() {
   GeoCoord center;
   h3ToGeo(indexed, &center);
   printf("Center coordinates: %lf, %lf\n", radsToDegs(center.lat), radsToDegs(center.lon));
+
+  return 0;
 }
