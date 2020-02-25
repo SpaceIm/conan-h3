@@ -75,5 +75,6 @@ class H3Conan(ConanFile):
         self.cpp_info.names["cmake_find_package"] = "h3"
         self.cpp_info.names["cmake_find_package_multi"] = "h3"
         self.cpp_info.libs = tools.collect_libs(self)
+        self.cpp_info.defines.append("H3_PREFIX={}".format(self.options.h3_prefix))
         if self.settings.os == "Linux":
             self.cpp_info.system_libs.append("m")
