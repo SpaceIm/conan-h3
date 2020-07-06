@@ -15,11 +15,13 @@ class H3Conan(ConanFile):
     options = {
         "shared": [True, False],
         "fPIC": [True, False],
+        "build_filters": [True, False],
         "h3_prefix": "ANY"
     }
     default_options = {
         "shared": False,
         "fPIC": True,
+        "build_filters": True,
         "h3_prefix": ""
     }
 
@@ -60,7 +62,7 @@ class H3Conan(ConanFile):
         self._cmake.definitions["H3_PREFIX"] = self.options.h3_prefix
         self._cmake.definitions["ENABLE_COVERAGE"] = False
         self._cmake.definitions["BUILD_BENCHMARKS"] = False
-        self._cmake.definitions["BUILD_FILTERS"] = False
+        self._cmake.definitions["BUILD_FILTERS"] = self.options.build_filters
         self._cmake.definitions["BUILD_GENERATORS"] = False
         self._cmake.definitions["WARNINGS_AS_ERRORS"] = False
         self._cmake.definitions["ENABLE_LINTING"] = False
@@ -73,7 +75,7 @@ class H3Conan(ConanFile):
         self.copy("LICENSE", dst="licenses", src=self._source_subfolder)
         cmake = self._configure_cmake()
         cmake.install()
-        # tools.rmdir(os.path.join(self.package_folder, "lib", "cmake"))
+        tools.rmdir(os.path.join(self.package_folder, "lib", "cmake"))
 
     def package_info(self):
         self.cpp_info.names["cmake_find_package"] = "h3"
@@ -82,3 +84,8 @@ class H3Conan(ConanFile):
         if self.settings.os == "Linux":
             self.cpp_info.system_libs.append("m")
         self.cpp_info.defines.append("H3_PREFIX={}".format(self.options.h3_prefix))
+
+        if self.options.build_filters:
+            bin_path = os.path.join(self.package_folder, "bin")
+            self.output.info("Appending PATH environment variable: {}".format(bin_path))
+            self.env_info.PATH.append(bin_path)
